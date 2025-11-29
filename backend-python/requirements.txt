@@ -1,0 +1,8 @@
+gunicorn
+uvicorn[standard]
+fastapi
+rich
+sqlmodel
+psycopg[binary]
+redis[hiredis]
+pydantic-settings
