@@ -1,7 +1,8 @@
 from sqlmodel import Field, SQLModel
 
+
 class Usuario(SQLModel, table=True):
-    __tablename__ = "usuarios"
+    __tablename__ = "usuarios"  # type: ignore
 
     id: int | None = Field(default=None, primary_key=True)
     nome: str = Field(max_length=255, nullable=False)

@@ -1,14 +1,102 @@
+# ============================
+# Projeto
+# ============================
 [project]
 name = "backend-python"
 version = "0.1.0"
-requires-python = ">=3.13"
+requires-python = ">=3.13.9"
 dependencies = [
-    "fastapi>=0.123.0",
+    "fastapi[standard]>=0.128.0",
     "gunicorn>=23.0.0",
     "psycopg[binary]>=3.3.0",
     "pydantic-settings>=2.12.0",
     "redis[hiredis]>=7.1.0",
     "rich>=14.2.0",
     "sqlmodel>=0.0.27",
-    "uvicorn[standard]>=0.38.0",
 ]
+
+[project.optional-dependencies]
+dev = ["ruff", "pyright"]
+
+# ============================
+# Lint e formatação (Ruff)
+# ============================
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+fix = true
+show-fixes = true
+indent-width = 4
+exclude = ["venv", ".venv", "env", ".env", "node_modules", "__pycache__"]
+
+[tool.ruff.lint]
+select = [
+    "ASYNC",
+    "A",
+    "ANN",
+    "B",
+    "BLE",
+    "C4",
+    "C90",
+    "COM",
+    "E",
+    "EM",
+    "ERA",
+    "EXE",
+    "F",
+    "FBT",
+    "FIX",
+    "I",
+    "ICN",
+    "ISC",
+    "Q",
+    "RET",
+    "RSE",
+    "S",
+    "SIM",
+    "SLF",
+    "T10",
+    "T20",
+    "TC",
+    "TD",
+    "TRY",
+    "UP",
+    "W",
+    "YTT",
+    "RUF",
+    "N",
+]
+ignore = ["T201", "COM812", "B008"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["ANN201", "S101"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+[tool.ruff.lint.isort]
+# Ensina ao Ruff qual é o pacote principal do seu projeto.
+# Deve ser o mesmo nome da pasta dentro de 'src/'.
+known-first-party = [""]
+
+
+# ============================
+# Tipagem (Pyright)
+# ============================
+[tool.pyright]
+typeCheckingMode = "strict"
+pythonVersion = "3.13"
+include = ["src", 'tests']
+exclude = [
+    "**/venv",
+    "**/.venv",
+    "**/env",
+    "**/.env",
+    "**/node_modules",
+    "**/__pycache__",
+]
+venv = ".venv"
+venvPath = "."
+executionEnvironments = [{ root = "src" }]

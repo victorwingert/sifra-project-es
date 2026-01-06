@@ -1,7 +1,8 @@
 from sqlmodel import Field, SQLModel
 
+
 class Frequencia(SQLModel, table=True):
-    __tablename__ = "frequencias"
+    __tablename__ = "frequencias"  # type: ignore
 
     id: int | None = Field(default=None, primary_key=True)
     presente: bool = Field(default=False, nullable=False)

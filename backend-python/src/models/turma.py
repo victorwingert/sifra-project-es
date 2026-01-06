@@ -1,7 +1,8 @@
 from sqlmodel import Field, SQLModel
 
+
 class Turma(SQLModel, table=True):
-    __tablename__ = "turmas"
+    __tablename__ = "turmas"  # type: ignore
 
     id: int | None = Field(default=None, primary_key=True)
     ano: int = Field(nullable=False)
