@@ -1,0 +1,10 @@
+from .admin import Administrador as Administrador
+from .aula import Aula as Aula
+from .coordenador import Coordenador as Coordenador
+from .discente import Discente as Discente
+from .disciplina import Disciplina as Disciplina
+from .docente import Docente as Docente
+from .frequencia import Frequencia as Frequencia
+from .turma import Turma as Turma
+from .turma_discente import TurmaDiscentes as TurmaDiscentes
+from .usuario import Usuario as Usuario

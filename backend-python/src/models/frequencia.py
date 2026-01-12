@@ -1,10 +1,20 @@
-from sqlmodel import Field, SQLModel
+from typing import TYPE_CHECKING, Optional
+
+from sqlmodel import Field, Relationship, SQLModel
+
+if TYPE_CHECKING:
+    from .aula import Aula
+    from .discente import Discente
 
 
 class Frequencia(SQLModel, table=True):
     __tablename__ = "frequencias"  # type: ignore
 
-    id: int | None = Field(default=None, primary_key=True)
-    presente: bool = Field(default=False, nullable=False)
-    aula_id: int = Field(foreign_key="aulas.id", nullable=False)
-    discente_id: int = Field(foreign_key="discentes.id", nullable=False)
+    frequencia_id: int | None = Field(default=None, primary_key=True)
+    presente: bool = False
+
+    aula_id: int = Field(foreign_key="aulas.aula_id")
+    discente_id: int = Field(foreign_key="discentes.discente_id")
+
+    aula: Optional["Aula"] = Relationship(back_populates="frequencias")
+    discente: Optional["Discente"] = Relationship(back_populates="frequencias")

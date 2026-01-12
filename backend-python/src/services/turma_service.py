@@ -1,6 +1,6 @@
 from sqlmodel import Session, select
 
-from ..models.turma import Turma
+from ..models import Turma
 
 
 class TurmaService:

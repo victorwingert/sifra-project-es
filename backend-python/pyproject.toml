@@ -10,6 +10,8 @@ dependencies = [
     "gunicorn>=23.0.0",
     "psycopg[binary]>=3.3.0",
     "pydantic-settings>=2.12.0",
+    "pyjwt>=2.10.1",
+    "python-multipart>=0.0.21",
     "redis[hiredis]>=7.1.0",
     "rich>=14.2.0",
     "sqlmodel>=0.0.27",
@@ -100,3 +102,9 @@ exclude = [
 venv = ".venv"
 venvPath = "."
 executionEnvironments = [{ root = "src" }]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=9.0.2",
+]
