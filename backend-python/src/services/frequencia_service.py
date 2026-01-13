@@ -4,62 +4,34 @@ from typing import Any
 from fastapi import HTTPException
 from sqlmodel import Session, func, select
 
-from ..models import Aula, Discente, Docente, Frequencia, Turma, Usuario
-from ..schemas.discente import DiscenteSchema
-from ..schemas.frequencia import FrequenciaRequestSchema
+from ..models import Aula, Discente, Frequencia, Turma
+from ..schemas.frequencia import DiscenteFaltas, FrequenciaRequestSchema
 
 
 class FrequenciaService:
-    def get_turmas_docente(self, session: Session, docente_id: int) -> list[Turma]:
-        docente = session.get(Docente, docente_id)
-        if not docente:
-            return []
-        return docente.turmas
-
-    def get_turmas_discente(self, session: Session, discente_id: int) -> list[Turma]:
-        discente = session.get(Discente, discente_id)
-        if not discente:
-            return []
-        return discente.turmas
-
     def get_discentes_com_faltas(
         self, session: Session, turma_id: int
-    ) -> list[DiscenteSchema]:
+    ) -> list[DiscenteFaltas]:
         turma = session.get(Turma, turma_id)
         if not turma:
             return []
 
-        result: list[DiscenteSchema] = []
+        result: list[DiscenteFaltas] = []
         for d in turma.discentes:
-            # Fix: Filter absences correctly using '== False' AND by turma_id
             statement = (
                 select(func.count(Frequencia.frequencia_id))  # type: ignore
                 .join(Aula)
                 .where(
-                    Frequencia.discente_id == d.discente_id,
-                    not Frequencia.presente,
+                    Frequencia.discente_id == d.usuario_id,
+                    Frequencia.presente == False,  # noqa: E712
                     Aula.turma_id == turma_id,
                 )
             )
             faltas = session.exec(statement).one()
 
-            usuario = session.get(Usuario, d.discente_id)
-            if not usuario:
-                continue
+            result.append(DiscenteFaltas(discente=d, faltas=faltas))
 
-            discente_data = d.model_dump()
-            discente_data["id"] = discente_data.pop("discente_id")
-            discente_data["faltas"] = faltas
-
-            discente_data["nome"] = usuario.nome
-            discente_data["email"] = usuario.email
-            discente_data["perfil"] = usuario.perfil
-            discente_data["telefone"] = usuario.telefone
-            discente_data["image"] = usuario.image
-
-            result.append(DiscenteSchema(**discente_data))
-
-        result.sort(key=lambda x: x.nome)
+        result.sort(key=lambda x: x.discente.usuario.nome if x.discente.usuario else "")
         return result
 
     def lancar_frequencia(
@@ -76,7 +48,16 @@ class FrequenciaService:
         session.refresh(aula)
 
         frequencias: list[Frequencia] = []
+
+        ids_matriculados = {d.usuario_id for d in turma.discentes}
+
         for disc_dto in dto.discentes:
+            if disc_dto.discente_id not in ids_matriculados:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Discente {disc_dto.discente_id} não está matriculado nesta turma",  # noqa: E501
+                )
+
             discente = session.get(Discente, disc_dto.discente_id)
             if not discente:
                 raise HTTPException(
@@ -86,7 +67,7 @@ class FrequenciaService:
 
             frequencia = Frequencia(
                 aula_id=aula.aula_id,  # type: ignore
-                discente_id=discente.discente_id,  # type: ignore
+                discente_id=discente.usuario_id,  # type: ignore
                 presente=disc_dto.presente,
             )
             frequencias.append(frequencia)

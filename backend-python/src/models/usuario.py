@@ -9,5 +9,5 @@ class Usuario(SQLModel, table=True):
     email: str = Field(unique=True)
     senha: str
     telefone: str | None = None
-    image: str | None = None
-    perfil: str
+    imagem: str | None = None
+    tipo_usuario: str

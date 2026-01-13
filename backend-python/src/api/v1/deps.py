@@ -45,7 +45,7 @@ def get_current_user(
 def get_current_admin(
     current_user: Annotated[Usuario, Depends(get_current_user)],
 ) -> Usuario:
-    if current_user.perfil != "ADMIN":
+    if current_user.tipo_usuario != "ADMIN":
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="O usuário não tem privilégios suficientes",
@@ -56,7 +56,10 @@ def get_current_admin(
 def get_current_coordenador(
     current_user: Annotated[Usuario, Depends(get_current_user)],
 ) -> Usuario:
-    if current_user.perfil != "COORDENADOR" and current_user.perfil != "ADMIN":
+    if (
+        current_user.tipo_usuario != "COORDENADOR"
+        and current_user.tipo_usuario != "ADMIN"
+    ):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Acesso restrito a coordenadores",

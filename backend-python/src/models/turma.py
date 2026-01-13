@@ -19,7 +19,7 @@ class Turma(SQLModel, table=True):
     semestre: str = Field(max_length=20)
 
     disciplina_id: int = Field(foreign_key="disciplinas.disciplina_id")
-    docente_id: int = Field(foreign_key="docentes.docente_id")
+    docente_id: int = Field(foreign_key="docentes.usuario_id")
 
     disciplina: Optional["Disciplina"] = Relationship(back_populates="turmas")
     docente: Optional["Docente"] = Relationship(back_populates="turmas")

@@ -14,7 +14,7 @@ class Frequencia(SQLModel, table=True):
     presente: bool = False
 
     aula_id: int = Field(foreign_key="aulas.aula_id")
-    discente_id: int = Field(foreign_key="discentes.discente_id")
+    discente_id: int = Field(foreign_key="discentes.usuario_id")
 
     aula: Optional["Aula"] = Relationship(back_populates="frequencias")
     discente: Optional["Discente"] = Relationship(back_populates="frequencias")

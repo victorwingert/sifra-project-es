@@ -11,5 +11,4 @@ service = TurmaService()
 
 @router.get("/", response_model=list[Turma])
 def list_turmas(*, session: Session = Depends(get_session)) -> list[Turma]:
-    statement = select(Turma)
-    return list(session.exec(statement).all())
+    return service.list_turmas(session)

@@ -1,17 +1,25 @@
-from pydantic import BaseModel
+from .usuario import UsuarioBase, UsuarioCreate, UsuarioUpdate
 
 
-class DiscenteSchema(BaseModel):
+class DiscenteCreate(UsuarioCreate):
+    matricula: str
+    curso: str
+    semestre_ingresso: str
+
+
+class DiscenteUpdate(UsuarioUpdate):
+    matricula: str | None = None
+    curso: str | None = None
+    semestre_ingresso: str | None = None
+
+
+class DiscenteRead(UsuarioBase):
     id: int
-    nome: str
-    email: str
-    telefone: str | None = None
-    image: str | None = None
     matricula: str
     curso: str | None = None
     semestre_ingresso: str | None = None
-    perfil: str
-    faltas: int
+    tipo_usuario: str
+    faltas: int | None = None
 
     class Config:
         from_attributes = True
