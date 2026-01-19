@@ -6,7 +6,8 @@ from ..models import Discente, Turma
 
 class TurmaService:
     def list_turmas(self, session: Session) -> list[Turma]:
-        return list(session.exec(select(Turma)).all())
+        statement = select(Turma).options(selectinload(Turma.disciplina)) # type: ignore
+        return list(session.exec(statement).all())
 
     def get_discentes(self, session: Session, turma_id: int) -> list[Discente] | None:
         turma = session.exec(

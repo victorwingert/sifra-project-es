@@ -18,13 +18,13 @@ export default function Relatorio() {
     async function fetchDiscentes() {
       try {
         const response = await api.get("/frequencia/discentes", {
-          params: { turmaId: turmaId },
+          params: { turma_id: turmaId },
         });
         setDiscentes(response.data);
 
         const turmas = await api.get("/turmas");
         for(const t of turmas.data){
-            if(String(t.id) === String(turmaId)){
+            if(String(t.turma_id) === String(turmaId)){
                 setTurma(t);
                 console.log(t)
             }
@@ -44,10 +44,10 @@ export default function Relatorio() {
           faltas atual é {media}.
         </p>
         <p>
-          <b>Carga horária:</b> {(turma.disciplina?.cargaHoraria !== undefined ? turma.disciplina.cargaHoraria.toString() : "N/A")} horas
+          <b>Carga horária:</b> {(turma.disciplina?.carga_horaria !== undefined ? turma.disciplina.carga_horaria.toString() : "N/A")} horas
         </p>
         <p>
-          <b>Faltas permitidas:</b> {(turma.disciplina?.faltasPermitidas !== undefined ? turma.disciplina.faltasPermitidas.toString() : "N/A")}
+          <b>Faltas permitidas:</b> {(turma.disciplina?.faltas_permitidas !== undefined ? turma.disciplina.faltas_permitidas.toString() : "N/A")}
         </p>
       </div>
       <div className="table-box">
@@ -61,9 +61,9 @@ export default function Relatorio() {
           </thead>
           <tbody>
             {discentes.map((row) => (
-              <tr key={row.matricula}>
-                <td>{row.nome}</td>
-                <td>{row.matricula}</td>
+              <tr key={row.discente.matricula}>
+                <td>{row.discente.usuario.nome}</td>
+                <td>{row.discente.matricula}</td>
                 <td>{row.faltas}</td>
               </tr>
             ))}

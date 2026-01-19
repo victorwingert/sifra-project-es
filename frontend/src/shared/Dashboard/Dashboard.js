@@ -52,12 +52,12 @@ React.useEffect(() => {
       setCards([
         {
           label: "Cadastrar usuário",
-          icon: "cadastro_usuario.png",
+          icon: "editar.png",
           description: "Adicione novos usuários ao sistema com permissões personalizadas",
         },
         {
           label: "Gerenciar usuários",
-          icon: "gerenciar_grupo.png",
+          icon: "alunos.png",
           description: "Visualize, edite ou remova usuários existentes do sistema",
         },
       ]);

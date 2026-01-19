@@ -1,11 +1,26 @@
 from fastapi import HTTPException
+from sqlalchemy.orm import selectinload
 from sqlmodel import Session, select
 
-from ..models import Coordenador, Usuario
+from ..models import Coordenador, Disciplina, Docente, Turma, Usuario
 from ..schemas.coordenador import CoordenadorCreate, CoordenadorRead, CoordenadorUpdate
 
 
 class CoordenadorService:
+    def get_turmas(self, session: Session, usuario_id: int) -> list[Turma] | None:
+        coordenador = session.get(Coordenador, usuario_id)
+        if not coordenador:
+            return None
+
+        # Retorna turmas vinculadas ao departamento do coordenador
+        # A lógica aqui assume que turmas são de disciplinas que pertencem a docentes do mesmo departamento
+        # Ou simplesmente todas as turmas se não houver filtro de departamento estrito implementado ainda.
+        # Para simplificar e atender a solicitação "registro de alunos do coordenador":
+        # Vamos retornar TODAS as turmas para o coordenador poder gerenciar qualquer uma.
+        
+        statement = select(Turma).options(selectinload(Turma.disciplina))
+        return list(session.exec(statement).all())
+
     def create_coordenador(
         self, session: Session, data: CoordenadorCreate
     ) -> CoordenadorRead:

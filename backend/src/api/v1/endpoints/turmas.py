@@ -5,13 +5,14 @@ from ....db.session import get_session
 from ....models.discente import Discente
 from ....models.turma import Turma
 from ....schemas.discente import DiscenteRead
+from ....schemas.turma import TurmaRead
 from ....services.turma_service import TurmaService
 
 router = APIRouter()
 service = TurmaService()
 
 
-@router.get("/", response_model=list[Turma])
+@router.get("/", response_model=list[TurmaRead])
 def list_turmas(*, session: Session = Depends(get_session)) -> list[Turma]:
     return service.list_turmas(session)
 
