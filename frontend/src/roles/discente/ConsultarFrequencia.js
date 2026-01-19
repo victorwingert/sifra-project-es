@@ -8,7 +8,6 @@ export default function ConsultarFrequencia() {
   const [usuario, setUsuario] = useState(null);
   const { turmaId } = useParams();
   const [discente, setDiscente] = useState({});
-  const [turma, setTurma] = useState({});
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
@@ -37,34 +36,25 @@ export default function ConsultarFrequencia() {
           params: { turma_id: turmaId },
         });
         const discenteEncontrado = response.data.find(
-          (d) => d.nome === usuario.nome,
+          (d) => d.discente.usuario_id === usuario.usuario_id,
         );
         if (discenteEncontrado) {
           setDiscente(discenteEncontrado);
-        }
-
-        const turmas = await api.get("/turmas");
-        for (const t of turmas.data) {
-          if (String(t.id) === String(turmaId)) {
-            setTurma(t);
-            console.log(t);
-          }
+          console.log(discenteEncontrado);
         }
       } catch (error) {
         console.error("Erro ao buscar discente:", error);
       }
     }
     fetchDiscentes();
-  }, [turmaId, usuario]);
+  }, [usuario, turmaId]);
   
   if (loading) return <p>Carregando...</p>;
 
   return (
     <div className="flex-container">
       <p style={{ fontWeight: 600 }}>
-        Você possui {discente.faltas} falta(s) nesta disciplina. O total de
-        faltas permitido é{" "}
-        {(turma?.disciplina?.faltasPermitidas ?? "N/A").toString()}.
+        Você possui {discente.faltas} falta(s) nesta disciplina.
       </p>
       <div className="table-box">
         <table>
@@ -77,8 +67,8 @@ export default function ConsultarFrequencia() {
           </thead>
           <tbody>
             <tr>
-              <td>{discente.nome}</td>
-              <td>{discente.matricula}</td>
+              <td>{usuario.nome}</td>
+              <td>{discente.discente.matricula}</td>
               <td>{discente.faltas}</td>
             </tr>
           </tbody>

@@ -5,17 +5,17 @@ import "./Cadastro.css";
 
 export default function CadastroUsuario() {
   const navigate = useNavigate();
-  const [perfil, setPerfil] = useState("docente");
+  const [perfil, setPerfil] = useState("DOCENTE");
   const [form, setForm] = useState({
     nome: "",
     email: "",
     telefone: "",
     senha: "",
-    image: "",
+    imagem: "",
     departamento: "", // para docente e coordenador
     matricula: "", // para discente
     curso: "", // para discente
-    semestreIngresso: "", // para discente
+    semestre_ingresso: "", // para discente
   });
 
   const handleChange = (e) => {
@@ -34,29 +34,28 @@ export default function CadastroUsuario() {
       email: form.email,
       telefone: form.telefone,
       senha: form.senha,
-      image: form.image,
-      perfil: perfil,
+      imagem: form.imagem,
     };
 
-    if (perfil === "docente" || perfil === "coordenador") {
+    if (perfil === "DOCENTE" || perfil === "COORDENADOR") {
       payload.departamento = form.departamento;
     }
 
-    if (perfil === "discente") {
+    if (perfil === "DISCENTE") {
       payload.matricula = form.matricula;
       payload.curso = form.curso;
-      payload.semestreIngresso = form.semestreIngresso;
+      payload.semestre_ingresso = form.semestre_ingresso;
     }
 
     try {
-      if(perfil === "docente"){
-        await api.post(`/docentes`, payload);
+      if(perfil === "DOCENTE"){
+        await api.post(`/docentes/`, payload);
       }
-      if(perfil === "coordenador"){
-        await api.post(`/coordenadores`, payload);
+      if(perfil === "COORDENADOR"){
+        await api.post(`/coordenadores/`, payload);
       }
-      if(perfil === "discente"){
-        await api.post(`/discentes`, payload);
+      if(perfil === "DISCENTE"){
+        await api.post(`/discentes/`, payload);
       }
       alert(`Usuário ${perfil} cadastrado com sucesso.`);
       navigate(-1);
@@ -72,9 +71,9 @@ export default function CadastroUsuario() {
       <form onSubmit={handleSubmit} className="form-cadastro">
         <label>Tipo de usuário:</label>
         <select value={perfil} onChange={handlePerfilChange}>
-          <option value="docente">Docente</option>
-          <option value="discente">Discente</option>
-          <option value="coordenador">Coordenador</option>
+          <option value="DOCENTE">DOCENTE</option>
+          <option value="DISCENTE">DISCENTE</option>
+          <option value="COORDENADOR">COORDENADOR</option>
         </select>
 
         <input
@@ -106,7 +105,7 @@ export default function CadastroUsuario() {
           required
         />
 
-        {(perfil === "docente" || perfil === "coordenador") && (
+        {(perfil === "DOCENTE" || perfil === "COORDENADOR") && (
           <input
             name="departamento"
             placeholder="Departamento"
@@ -115,7 +114,7 @@ export default function CadastroUsuario() {
           />
         )}
 
-        {perfil === "discente" && (
+        {perfil === "DISCENTE" && (
           <>
             <input
               name="matricula"
@@ -130,9 +129,9 @@ export default function CadastroUsuario() {
               onChange={handleChange}
             />
             <input
-              name="semestreIngresso"
+              name="semestre_ingresso"
               placeholder="Semestre de Ingresso"
-              value={form.semestreIngresso}
+              value={form.semestre_ingresso}
               onChange={handleChange}
             />
           </>

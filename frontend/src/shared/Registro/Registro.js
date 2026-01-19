@@ -11,14 +11,16 @@ export default function Registro() {
   React.useEffect(() => {
     async function fetchDiscentes() {
       try {
-          const response = await api.get("/frequencia/discentes");
+          const response = await api.get(`/turmas/${turmaId}/discentes`);
           setDiscentes(response.data);
+          console.log(response.data);
       } catch (error) {
         console.error("Erro ao buscar discentes:", error);
       }
     }
     fetchDiscentes();
   }, [turmaId]);
+
 
   return (
     <div className="flex-container">
@@ -28,15 +30,19 @@ export default function Registro() {
             <tr>
               <th>Nome</th>
               <th>Matrícula</th>
-              <th>Faltas</th>
+              <th>Curso</th>
+              <th>Semestre de ingresso</th>
+              <th>E-mail</th>
             </tr>
           </thead>
           <tbody>
             {discentes.map((row) => (
-              <tr key={row.matricula}>
+              <tr key={row.id}>
                 <td>{row.nome}</td>
                 <td>{row.matricula}</td>
-                <td>{row.faltas}</td>
+                <td>{row.curso}</td>
+                <td>{row.semestre_ingresso}</td>
+                <td>{row.email}</td>
               </tr>
             ))}
           </tbody>

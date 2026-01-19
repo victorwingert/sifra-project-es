@@ -63,10 +63,10 @@ export default function GerenciarUsuarios() {
           </thead>
           <tbody>
             {usuarios.map((row) => (
-              <tr key={row.id}>
+              <tr key={row.usuario_id}>
                 <td>{row.nome}</td>
                 <td>{row.email}</td>
-                <td>{row.perfil}</td>
+                <td>{row.tipo_usuario}</td>
                 <td>
                   <img
                     src={icon}

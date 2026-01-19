@@ -30,7 +30,7 @@ const UsersLayout = () => {
 
   return (
     <>
-      <Header username={usuario.nome} image={usuario.image}/>
+      <Header username={usuario.nome}/>
 
       <div className="users-layout">
         <Outlet />

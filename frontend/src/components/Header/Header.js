@@ -19,7 +19,6 @@ export default function Header(props){
             </div>
             <div className="user" style={{display: `${props.display}`}}>
                 <p>{props.username}</p>
-                <img className='user-img' src={props.image} alt="Foto do usuário"/>
                 <img className='logout-icon' src={logoutIcon} alt='Sair' title='Sair' onClick={handleLogout}/>
             </div>
         </div>

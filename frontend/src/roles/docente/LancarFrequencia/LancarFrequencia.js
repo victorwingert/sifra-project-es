@@ -20,9 +20,10 @@ export default function LancarFrequencia() {
         setDiscentes(response.data);
         console.log(response.data);
         // Inicializa todos como "presente"
+        setPresencas({});
         const presencasIniciais = {};
         response.data.forEach((d) => {
-          presencasIniciais[d.usuario_id] = true;
+          presencasIniciais[d.discente.usuario_id] = true;
         });
         setPresencas(presencasIniciais);
       } catch (error) {
@@ -33,6 +34,8 @@ export default function LancarFrequencia() {
   }, [turmaId]);
 
   const handleCheckboxChange = (id) => {
+    if (id == null) return; // 🔒 trava total contra undefined/null
+
     setPresencas((prev) => ({
       ...prev,
       [id]: !prev[id],
@@ -44,10 +47,12 @@ export default function LancarFrequencia() {
       const payload = {
         turma_id: parseInt(turmaId),
         data: data, // já está no formato correto
-        discentes: Object.entries(presencas).map(([id, presente]) => ({
-          discente_id: parseInt(id),
-          presente: presente,
-        })),
+        discentes: Object.entries(presencas)
+          .filter(([id]) => !isNaN(parseInt(id))) // 🛡️
+          .map(([id, presente]) => ({
+            discente_id: parseInt(id),
+            presente,
+          })),
       };
 
       console.log("Payload enviado:", payload);
@@ -93,7 +98,9 @@ export default function LancarFrequencia() {
                   <input
                     type="checkbox"
                     checked={presencas[row.discente.usuario_id] ?? true}
-                    onChange={() => handleCheckboxChange(row.discente.usuario_id)}
+                    onChange={() =>
+                      handleCheckboxChange(row.discente.usuario_id)
+                    }
                   />
                 </td>
               </tr>
