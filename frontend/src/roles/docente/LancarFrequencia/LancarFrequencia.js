@@ -91,7 +91,7 @@ export default function LancarFrequencia() {
           <tbody>
             {discentes.map((row) => (
               <tr key={row.discente.matricula}>
-                <td>{row.discente.nome}</td>
+                <td>{row.discente.usuario.nome}</td>
                 <td>{row.discente.matricula}</td>
                 <td>{row.faltas}</td>
                 <td>
