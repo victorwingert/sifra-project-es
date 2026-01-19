@@ -1,13 +1,18 @@
-from sqlmodel import Session
+from fastapi import HTTPException
+from sqlmodel import Session, select
 
 from ..models import Coordenador, Usuario
-from ..schemas.coordenador import CoordenadorCreate, CoordenadorUpdate
+from ..schemas.coordenador import CoordenadorCreate, CoordenadorRead, CoordenadorUpdate
 
 
 class CoordenadorService:
     def create_coordenador(
         self, session: Session, data: CoordenadorCreate
-    ) -> Coordenador:
+    ) -> CoordenadorRead:
+        statement = select(Usuario).where(Usuario.email == data.email)
+        if session.exec(statement).first():
+            raise HTTPException(status_code=400, detail="E-mail já cadastrado")
+
         db_usuario = Usuario(
             nome=data.nome,
             email=data.email,
@@ -27,11 +32,20 @@ class CoordenadorService:
         session.add(db_coordenador)
         session.commit()
         session.refresh(db_coordenador)
-        return db_coordenador
+        
+        return CoordenadorRead(
+            id=db_usuario.usuario_id,  # type: ignore
+            nome=db_usuario.nome,
+            email=db_usuario.email,
+            telefone=db_usuario.telefone,
+            imagem=db_usuario.imagem,
+            tipo_usuario=db_usuario.tipo_usuario,
+            departamento=db_coordenador.departamento,
+        )
 
     def update_coordenador(
         self, session: Session, usuario_id: int, data: CoordenadorUpdate
-    ) -> Coordenador | None:
+    ) -> CoordenadorRead | None:
         db_coordenador = session.get(Coordenador, usuario_id)
         if not db_coordenador:
             return None
@@ -54,4 +68,15 @@ class CoordenadorService:
         session.add(db_coordenador)
         session.commit()
         session.refresh(db_coordenador)
-        return db_coordenador
+        
+        if db_usuario:
+            return CoordenadorRead(
+                id=db_usuario.usuario_id,  # type: ignore
+                nome=db_usuario.nome,
+                email=db_usuario.email,
+                telefone=db_usuario.telefone,
+                imagem=db_usuario.imagem,
+                tipo_usuario=db_usuario.tipo_usuario,
+                departamento=db_coordenador.departamento,
+            )
+        return None

@@ -23,7 +23,7 @@ export default function LancarFrequencia() {
         setPresencas({});
         const presencasIniciais = {};
         response.data.forEach((d) => {
-          presencasIniciais[d.discente.usuario_id] = true;
+          presencasIniciais[d.discente.usuario.usuario_id] = true;
         });
         setPresencas(presencasIniciais);
       } catch (error) {
@@ -97,9 +97,9 @@ export default function LancarFrequencia() {
                 <td>
                   <input
                     type="checkbox"
-                    checked={presencas[row.discente.usuario_id] ?? true}
+                    checked={presencas[row.discente.usuario.usuario_id] ?? true}
                     onChange={() =>
-                      handleCheckboxChange(row.discente.usuario_id)
+                      handleCheckboxChange(row.discente.usuario.usuario_id)
                     }
                   />
                 </td>

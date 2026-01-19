@@ -35,7 +35,7 @@ def create_docente(
     data: DocenteCreate,
     session: Session = Depends(get_session),
     _: Usuario = Depends(get_current_admin),
-) -> Docente:
+) -> DocenteRead:
     return service.create_docente(session, data)
 
 
@@ -45,7 +45,7 @@ def update_docente(
     data: DocenteUpdate,
     session: Session = Depends(get_session),
     _: Usuario = Depends(get_current_admin),
-) -> Docente:
+) -> DocenteRead:
     updated = service.update_docente(session, usuario_id, data)
     if not updated:
         raise HTTPException(status_code=404, detail="Docente não encontrado")

@@ -22,7 +22,7 @@ def create_coordenador(
     data: CoordenadorCreate,
     session: Session = Depends(get_session),
     _: Usuario = Depends(get_current_admin),
-) -> Coordenador:
+) -> CoordenadorRead:
     return service.create_coordenador(session, data)
 
 
@@ -32,7 +32,7 @@ def update_coordenador(
     data: CoordenadorUpdate,
     session: Session = Depends(get_session),
     _: Usuario = Depends(get_current_admin),
-) -> Coordenador:
+) -> CoordenadorRead:
     updated = service.update_coordenador(session, usuario_id, data)
     if not updated:
         raise HTTPException(status_code=404, detail="Coordenador não encontrado")

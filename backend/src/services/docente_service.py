@@ -1,8 +1,9 @@
+from fastapi import HTTPException
 from sqlalchemy.orm import selectinload
 from sqlmodel import Session, select
 
 from ..models import Docente, Turma, Usuario
-from ..schemas.docente import DocenteCreate, DocenteUpdate
+from ..schemas.docente import DocenteCreate, DocenteRead, DocenteUpdate
 
 
 class DocenteService:
@@ -18,7 +19,11 @@ class DocenteService:
         )
         return list(session.exec(statement).all())
 
-    def create_docente(self, session: Session, data: DocenteCreate) -> Docente:
+    def create_docente(self, session: Session, data: DocenteCreate) -> DocenteRead:
+        statement = select(Usuario).where(Usuario.email == data.email)
+        if session.exec(statement).first():
+            raise HTTPException(status_code=400, detail="E-mail já cadastrado")
+
         db_usuario = Usuario(
             nome=data.nome,
             email=data.email,
@@ -38,11 +43,20 @@ class DocenteService:
         session.add(db_docente)
         session.commit()
         session.refresh(db_docente)
-        return db_docente
+        return DocenteRead(
+            id=db_usuario.usuario_id,  # type: ignore
+            nome=db_usuario.nome,
+            email=db_usuario.email,
+            telefone=db_usuario.telefone,
+            imagem=db_usuario.imagem,
+            tipo_usuario=db_usuario.tipo_usuario,
+            departamento=db_docente.departamento,
+            usuario_id=db_usuario.usuario_id,  # type: ignore
+        )
 
     def update_docente(
         self, session: Session, usuario_id: int, data: DocenteUpdate
-    ) -> Docente | None:
+    ) -> DocenteRead | None:
         db_docente = session.get(Docente, usuario_id)
         if not db_docente:
             return None
@@ -65,4 +79,16 @@ class DocenteService:
         session.add(db_docente)
         session.commit()
         session.refresh(db_docente)
-        return db_docente
+
+        if db_usuario:
+            return DocenteRead(
+                id=db_usuario.usuario_id,  # type: ignore
+                nome=db_usuario.nome,
+                email=db_usuario.email,
+                telefone=db_usuario.telefone,
+                imagem=db_usuario.imagem,
+                tipo_usuario=db_usuario.tipo_usuario,
+                departamento=db_docente.departamento,
+                usuario_id=db_usuario.usuario_id,  # type: ignore
+            )
+        return None

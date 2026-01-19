@@ -34,7 +34,7 @@ def create_discente(
     data: DiscenteCreate,
     session: Session = Depends(get_session),
     _: Usuario = Depends(get_current_admin),
-) -> Discente:
+) -> DiscenteRead:
     return service.create_discente(session, data)
 
 
@@ -44,7 +44,7 @@ def update_discente(
     data: DiscenteUpdate,
     session: Session = Depends(get_session),
     _: Usuario = Depends(get_current_admin),
-) -> Discente:
+) -> DiscenteRead:
     updated = service.update_discente(session, usuario_id, data)
     if not updated:
         raise HTTPException(status_code=404, detail="Discente não encontrado")

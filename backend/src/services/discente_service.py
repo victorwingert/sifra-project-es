@@ -1,8 +1,9 @@
+from fastapi import HTTPException
 from sqlalchemy.orm import selectinload
 from sqlmodel import Session, select
 
 from ..models import Discente, Turma, TurmaDiscentes, Usuario
-from ..schemas.discente import DiscenteCreate, DiscenteUpdate
+from ..schemas.discente import DiscenteCreate, DiscenteRead, DiscenteUpdate
 
 
 class DiscenteService:
@@ -19,7 +20,11 @@ class DiscenteService:
         )
         return list(session.exec(statement).all())
 
-    def create_discente(self, session: Session, data: DiscenteCreate) -> Discente:
+    def create_discente(self, session: Session, data: DiscenteCreate) -> DiscenteRead:
+        statement = select(Usuario).where(Usuario.email == data.email)
+        if session.exec(statement).first():
+            raise HTTPException(status_code=400, detail="E-mail já cadastrado")
+
         db_usuario = Usuario(
             nome=data.nome,
             email=data.email,
@@ -41,11 +46,22 @@ class DiscenteService:
         session.add(db_discente)
         session.commit()
         session.refresh(db_discente)
-        return db_discente
+        
+        return DiscenteRead(
+            id=db_usuario.usuario_id,  # type: ignore
+            nome=db_usuario.nome,
+            email=db_usuario.email,
+            telefone=db_usuario.telefone,
+            imagem=db_usuario.imagem,
+            tipo_usuario=db_usuario.tipo_usuario,
+            matricula=db_discente.matricula,
+            curso=db_discente.curso,
+            semestre_ingresso=db_discente.semestre_ingresso,
+        )
 
     def update_discente(
         self, session: Session, usuario_id: int, data: DiscenteUpdate
-    ) -> Discente | None:
+    ) -> DiscenteRead | None:
         db_discente = session.get(Discente, usuario_id)
         if not db_discente:
             return None
@@ -72,4 +88,17 @@ class DiscenteService:
         session.add(db_discente)
         session.commit()
         session.refresh(db_discente)
-        return db_discente
+        
+        if db_usuario:
+            return DiscenteRead(
+                id=db_usuario.usuario_id,  # type: ignore
+                nome=db_usuario.nome,
+                email=db_usuario.email,
+                telefone=db_usuario.telefone,
+                imagem=db_usuario.imagem,
+                tipo_usuario=db_usuario.tipo_usuario,
+                matricula=db_discente.matricula,
+                curso=db_discente.curso,
+                semestre_ingresso=db_discente.semestre_ingresso,
+            )
+        return None
