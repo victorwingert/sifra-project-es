@@ -1,0 +1,66 @@
+.gerenciar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.gerenciar-container .title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  text-align: center;
+}
+
+.gerenciar-table.table-box {
+  width: 100%;
+  max-height: none;
+  overflow: auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.gerenciar-table table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  text-align: left;
+}
+
+.gerenciar-table thead th {
+  background: #f9fafb;
+  color: #374151;
+  font-weight: 600;
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.gerenciar-table tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #111827;
+}
+
+.gerenciar-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.gerenciar-table tbody td:last-child,
+.gerenciar-table thead th:last-child {
+  text-align: center;
+  width: 90px;
+}
+
+@media (max-width: 768px) {
+  .gerenciar-container .title {
+    font-size: 22px;
+  }
+
+  .gerenciar-table thead th,
+  .gerenciar-table tbody td {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+}

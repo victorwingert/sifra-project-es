@@ -39,15 +39,27 @@ React.useEffect(() => {
 
     case "DISCENTE":
       setCards([
-        { label: "Consultar frequência", icon: "consulta.png" },
+        {
+          label: "Consultar frequência",
+          icon: "consulta.png",
+          description: "Verifique seu histórico de faltas",
+        },
         { label: "Minhas informações", icon: "info.png" },
       ]);
       break;
 
     case "ADMIN":
       setCards([
-        { label: "Cadastrar usuário", icon: "check-list.png" },
-        { label: "Gerenciar usuários", icon: "consulta.png" },
+        {
+          label: "Cadastrar usuário",
+          icon: "cadastro_usuario.png",
+          description: "Adicione novos usuários ao sistema com permissões personalizadas",
+        },
+        {
+          label: "Gerenciar usuários",
+          icon: "gerenciar_grupo.png",
+          description: "Visualize, edite ou remova usuários existentes do sistema",
+        },
       ]);
       break;
 
@@ -93,13 +105,18 @@ React.useEffect(() => {
     <>
       <div className="main-dashboard">
         <p className="saudacao">Olá, {usuario.nome}!</p>
+        <p className="saudacao-sub">O que você gostaria de fazer hoje?</p>
         <div className="cards">
           {cards.map((info) => (
             <div
               key={info.label}
               onClick={() => navigate(getCardRoute(info.label))}
             >
-              <Card label={info.label} icon={info.icon} />
+              <Card
+                label={info.label}
+                icon={info.icon}
+                description={info.description}
+              />
             </div>
           ))}
         </div>

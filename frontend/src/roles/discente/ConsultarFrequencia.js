@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import api from "../../service/api";
 import Button from "../../components/Button/Button";
 import { getUsuarioLogado } from "../../service/usuarioService";
+import "./ConsultarFrequencia.css";
 
 export default function ConsultarFrequencia() {
   const [usuario, setUsuario] = useState(null);
@@ -57,7 +58,7 @@ export default function ConsultarFrequencia() {
       <p style={{ fontWeight: 600 }}>
         Você possui {discente.faltas} falta(s) nesta disciplina.
       </p>
-      <div className="table-box">
+      <div className="table-box consultar-table">
         <table>
           <thead>
             <tr>

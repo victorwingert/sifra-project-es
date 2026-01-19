@@ -4,6 +4,7 @@ import iconExcluir from "../../assets/icons/excluir.png";
 import iconEditar from "../../assets/icons/editar.png";
 import Button from "../../components/Button/Button";
 import { useNavigate } from "react-router";
+import "./GerenciarUsuarios.css";
 import "./Cadastro.css"; // Reutilizando estilos de formulário
 
 export default function GerenciarUsuarios() {
@@ -101,7 +102,7 @@ export default function GerenciarUsuarios() {
   };
 
   return (
-    <div className="flex-container">
+    <div className="flex-container gerenciar-container">
       <p className="title">
         <b>Gerenciamento de usuários</b>
       </p>
@@ -142,7 +143,7 @@ export default function GerenciarUsuarios() {
         </div>
       )}
 
-      <div className="table-box">
+      <div className="table-box gerenciar-table">
         <table>
           <thead>
             <tr>

@@ -1,6 +1,5 @@
 import "./SelecionarDisciplina.css";
 import Barra from "../../components/Barra/Barra";
-import Button from "../../components/Button/Button";
 import api from "../../service/api";
 import { getUsuarioLogado } from "../../service/usuarioService";
 
@@ -63,6 +62,9 @@ export default function SelecionarDisciplina() {
 
   return (
     <div className="container">
+      <button className="back-link" onClick={() => navigate(-1)}>
+        ← Voltar
+      </button>
       <p className="title">Selecione a disciplina desejada: </p>
       <div className="barras">
         {turmas.map((turma) => (
@@ -71,15 +73,11 @@ export default function SelecionarDisciplina() {
             onClick={() => navigate(`./${turma.turma_id}`)}
           >
             <Barra
-              label={`${turma.disciplina.codigo} - ${turma.disciplina.nome}`}
+              code={turma.disciplina.codigo}
+              name={turma.disciplina.nome}
             />
           </div>
         ))}
-      </div>
-      <div className="botoes">
-        <div onClick={() => navigate(-1)}>
-          <Button value={"Voltar"} backgroundColor={"#000"} color={"#fff"} />
-        </div>
       </div>
     </div>
   );

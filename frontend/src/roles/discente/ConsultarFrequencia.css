@@ -1,0 +1,51 @@
+.consultar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.consultar-info {
+  margin: 0;
+  font-weight: 600;
+  color: #111827;
+  text-align: center;
+}
+
+.consultar-table.table-box {
+  width: 100%;
+  max-height: none;
+  overflow: auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.consultar-table table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  text-align: left;
+}
+
+.consultar-table thead th {
+  background: #f9fafb;
+  color: #374151;
+  font-weight: 600;
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.consultar-table tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #111827;
+}
+
+@media (max-width: 768px) {
+  .consultar-table thead th,
+  .consultar-table tbody td {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+}
