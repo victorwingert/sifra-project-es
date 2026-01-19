@@ -1,4 +1,5 @@
-from sqlmodel import Session
+from sqlalchemy.orm import selectinload
+from sqlmodel import Session, select
 
 from ..models import Docente, Turma, Usuario
 from ..schemas.docente import DocenteCreate, DocenteUpdate
@@ -9,7 +10,13 @@ class DocenteService:
         docente = session.get(Docente, usuario_id)
         if not docente:
             return None
-        return docente.turmas
+
+        statement = (
+            select(Turma)
+            .where(Turma.docente_id == usuario_id)
+            .options(selectinload(Turma.disciplina))  # type: ignore
+        )
+        return list(session.exec(statement).all())
 
     def create_docente(self, session: Session, data: DocenteCreate) -> Docente:
         db_usuario = Usuario(
