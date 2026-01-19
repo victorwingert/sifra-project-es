@@ -23,67 +23,72 @@ Este projeto é um sistema de controle de frequência escolar desenvolvido com:
 
 Antes de iniciar, certifique-se de ter os seguintes softwares instalados:
 
+### **Geral**
+- [Docker](https://www.docker.com/) & [Docker Compose](https://docs.docker.com/compose/) (Recomendado para execução simplificada)
+- [PostgreSQL](https://www.postgresql.org/) (Caso opte por rodar o banco localmente fora do Docker)
+
+### **Backend**
+- [Python 3.13+](https://www.python.org/)
+- [uv](https://docs.astral.sh/uv/) (Gerenciador de pacotes e ambientes Python ultrarrápido)
+
+### **Frontend**
 - [Node.js](https://nodejs.org/) (versão 18+ recomendada)
-- [Java JDK](https://adoptopenjdk.net/) (versão 17 ou superior)
-- [Maven](https://maven.apache.org/) ou compatível com Spring Boot
-- [PostgreSQL](https://www.postgresql.org/) (caso for rodar localmente)
+- [npm](https://www.npmjs.com/) ou [yarn](https://yarnpkg.com/)
 
 ---
 
 ## 🚀 Como executar o projeto
 
-### 📦 Backend (Spring Boot)
+### 🐳 Via Docker (Mais simples)
+
+Na raiz do projeto, execute:
+```bash
+docker-compose up --build
+```
+
+---
+
+### 📦 Backend (FastAPI + uv)
 
 1. Acesse a pasta `backend`:
-
 ```bash
 cd backend
 ```
 
-2. Crie um arquivo `.env` ou configure o `application.properties` com os dados do banco:
-
-Exemplo de `application.properties`:
-
-```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/sifra
-spring.datasource.username=postgres
-spring.datasource.password=senha
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-```
-
-> ⚠️ Substitua os dados conforme seu banco.
-
-3. Execute a aplicação:
-
+2. Instale as dependências e crie o ambiente virtual com o `uv`:
 ```bash
-./mvnw spring-boot:run
+uv sync
 ```
 
-Ou, se estiver usando o IntelliJ/VSCode, basta rodar a classe principal: `SifraApplication.java`.
+3. Configure as variáveis de ambiente criando um arquivo `.env` (use o `.env.example` como base):
+```bash
+cp .env.example .env
+```
+
+4. Execute a aplicação em modo de desenvolvimento:
+```bash
+uv run fastapi dev src/main.py
+```
+O backend estará disponível em: [http://localhost:8000](http://localhost:8000)
 
 ---
 
 ### 💻 Frontend (React)
 
 1. Acesse a pasta `frontend`:
-
 ```bash
 cd frontend
 ```
 
 2. Instale as dependências:
-
 ```bash
 npm install
 ```
 
 3. Inicie o servidor de desenvolvimento:
-
 ```bash
 npm start
 ```
-
 O frontend estará disponível em: [http://localhost:3000](http://localhost:3000)
 
 ---
