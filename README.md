@@ -118,7 +118,7 @@ const api = axios.create({
 ## 🛠️ Usuários cadastrados
 
 - Docente:
-Prof. Fabricio Mendonça / fabricio@sifra.edu.br
+fabricio@sifra.edu.br / hash123
 
 - Discente:
 igor.rocha@estudante.edu.br / hash123
