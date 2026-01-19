@@ -88,7 +88,7 @@ cd backend
 
 2. Execute os testes com `pytest` (via `uv`):
 ```bash
-uv run pytest
+uv run python -m pytest
 ```
 
 ---
