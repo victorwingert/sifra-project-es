@@ -127,7 +127,7 @@ igor.rocha@estudante.edu.br / hash123
 helena@sifra.edu.br / hash123
 
 - Admin:
-admin@ufexemplo.edu / admin123
+admin@sifra.edu.br / admin123
 
 ---
 
