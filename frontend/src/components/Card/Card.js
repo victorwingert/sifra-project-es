@@ -7,6 +7,8 @@ export default function Card(props) {
         "Gerenciar usuários": "gerenciar_grupo.png",
         "Consultar frequência": "consultar_frequencia.png",
         "Minhas informações": "consultar_informacoes.png",
+        "Gerar relatório": "gerar_relatorio.png",
+        "Registro de alunos": "registro_aluno.png",
     };
 
     const iconName = iconMap[props.label] ?? props.icon;

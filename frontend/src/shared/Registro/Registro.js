@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import Button from "../../components/Button/Button";
 import api from "../../service/api";
+import "./Registro.css";
 
 export default function Registro() {
   const { turmaId } = useParams();
@@ -23,8 +24,8 @@ export default function Registro() {
 
 
   return (
-    <div className="flex-container">
-      <div className="table-box">
+    <div className="flex-container registro-container">
+      <div className="table-box registro-table">
         <table>
           <thead>
             <tr>
@@ -47,7 +48,8 @@ export default function Registro() {
             ))}
           </tbody>
         </table>
-      </div>      <div className="botoes">
+      </div>
+      <div className="botoes">
         <div onClick={() => navigate(-1)}>
           <Button value={"Voltar"} backgroundColor={"#000"} color={"#fff"} />
         </div>

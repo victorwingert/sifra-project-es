@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import api from "../../service/api";
 import Button from "../../components/Button/Button";
+import "./Relatorio.css";
 
 export default function Relatorio() {
   const { turmaId } = useParams();
@@ -37,9 +38,9 @@ export default function Relatorio() {
   }, [turmaId]);
 
   return (
-    <div className="flex-container">
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <p style={{ fontWeight: 600 }}>
+    <div className="flex-container relatorio-container">
+      <div className="relatorio-info">
+        <p>
           A turma possui {discentes.length} alunos matriculados. A média de
           faltas atual é {media}.
         </p>
@@ -50,7 +51,7 @@ export default function Relatorio() {
           <b>Faltas permitidas:</b> {(turma.disciplina?.faltas_permitidas !== undefined ? turma.disciplina.faltas_permitidas.toString() : "N/A")}
         </p>
       </div>
-      <div className="table-box">
+      <div className="table-box relatorio-table">
         <table>
           <thead>
             <tr>
@@ -69,7 +70,7 @@ export default function Relatorio() {
             ))}
           </tbody>
         </table>
-      </div>{" "}
+      </div>
       <div className="botoes">
         <div onClick={() => navigate(-1)}>
           <Button value={"Voltar"} backgroundColor={"#000"} color={"#fff"} />
