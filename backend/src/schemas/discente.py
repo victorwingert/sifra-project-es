@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from .usuario import UsuarioBase, UsuarioCreate, UsuarioRead, UsuarioUpdate
 
@@ -23,8 +23,7 @@ class DiscenteRead(UsuarioBase):
     tipo_usuario: str
     faltas: int | None = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class DiscenteComUsuario(BaseModel):
@@ -33,5 +32,4 @@ class DiscenteComUsuario(BaseModel):
     curso: str | None
     semestre_ingresso: str | None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

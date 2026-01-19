@@ -1,3 +1,4 @@
+from pydantic import ConfigDict, Field, computed_field
 from .usuario import UsuarioBase, UsuarioCreate, UsuarioUpdate
 
 
@@ -10,8 +11,7 @@ class AdministradorUpdate(UsuarioUpdate):
 
 
 class AdministradorRead(UsuarioBase):
-    id: int
-    tipo_usuario: str
+    usuario_id: int
+    tipo_usuario: str = "ADMIN"
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

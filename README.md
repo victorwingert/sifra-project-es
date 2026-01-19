@@ -71,6 +71,26 @@ uv run fastapi dev src/main.py
 ```
 O backend estará disponível em: [http://localhost:8000](http://localhost:8000)
 
+### 🧪 Testes Automatizados (Backend)
+
+O projeto possui testes automatizados para garantir a qualidade do código. Os testes cobrem:
+- **Autenticação** (`test_auth.py`)
+- **Gestão de Administradores** (`test_administradores.py`)
+- **Gestão de Turmas** (`test_turmas.py`)
+- **Gestão de Usuários** (`test_usuarios.py`)
+
+Para executar os testes:
+
+1. Certifique-se de estar na pasta `backend`:
+```bash
+cd backend
+```
+
+2. Execute os testes com `pytest` (via `uv`):
+```bash
+uv run pytest
+```
+
 ---
 
 ### 💻 Frontend (React)

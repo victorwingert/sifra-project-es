@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr
 
 
 class UsuarioBase(BaseModel):
@@ -24,5 +24,4 @@ class UsuarioRead(UsuarioBase):
     usuario_id: int
     tipo_usuario: str
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

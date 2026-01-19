@@ -1,3 +1,5 @@
+from pydantic import ConfigDict
+
 from .usuario import UsuarioBase, UsuarioCreate, UsuarioUpdate
 
 
@@ -14,5 +16,4 @@ class DocenteRead(UsuarioBase):
     departamento: str | None = None
     tipo_usuario: str
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

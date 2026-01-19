@@ -17,3 +17,15 @@ class Administrador(SQLModel, table=True):
     )
 
     usuario: "Usuario" = Relationship()
+
+    @property
+    def nome(self) -> str:
+        return self.usuario.nome if self.usuario else ""
+
+    @property
+    def email(self) -> str:
+        return self.usuario.email if self.usuario else ""
+
+    @property
+    def tipo_usuario(self) -> str:
+        return self.usuario.tipo_usuario if self.usuario else "ADMIN"
