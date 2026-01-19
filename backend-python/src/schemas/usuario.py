@@ -18,3 +18,11 @@ class UsuarioUpdate(BaseModel):
     email: EmailStr | None = None
     telefone: str | None = None
     imagem: str | None = None
+
+
+class UsuarioRead(UsuarioBase):
+    usuario_id: int
+    tipo_usuario: str
+
+    class Config:
+        from_attributes = True

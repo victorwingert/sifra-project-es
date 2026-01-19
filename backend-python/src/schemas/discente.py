@@ -1,4 +1,6 @@
-from .usuario import UsuarioBase, UsuarioCreate, UsuarioUpdate
+from pydantic import BaseModel
+
+from .usuario import UsuarioBase, UsuarioCreate, UsuarioRead, UsuarioUpdate
 
 
 class DiscenteCreate(UsuarioCreate):
@@ -20,6 +22,16 @@ class DiscenteRead(UsuarioBase):
     semestre_ingresso: str | None = None
     tipo_usuario: str
     faltas: int | None = None
+
+    class Config:
+        from_attributes = True
+
+
+class DiscenteComUsuario(BaseModel):
+    usuario: UsuarioRead
+    matricula: str
+    curso: str | None
+    semestre_ingresso: str | None
 
     class Config:
         from_attributes = True

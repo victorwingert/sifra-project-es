@@ -2,7 +2,7 @@ from datetime import date
 
 from pydantic import BaseModel
 
-from ..models.discente import Discente
+from ..schemas.discente import DiscenteComUsuario
 
 
 class FrequenciaDiscenteSchema(BaseModel):
@@ -17,5 +17,5 @@ class FrequenciaRequestSchema(BaseModel):
 
 
 class DiscenteFaltas(BaseModel):
-    discente: Discente
+    discente: DiscenteComUsuario
     faltas: int
