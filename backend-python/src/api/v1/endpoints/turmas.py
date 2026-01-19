@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlmodel import Session, select
+from sqlmodel import Session
 
 from ....db.session import get_session
+from ....models.discente import Discente
 from ....models.turma import Turma
 from ....schemas.discente import DiscenteRead
 from ....services.turma_service import TurmaService
@@ -17,14 +18,12 @@ def list_turmas(*, session: Session = Depends(get_session)) -> list[Turma]:
 
 @router.get("/{turma_id}/discentes", response_model=list[DiscenteRead])
 def get_turma_discentes(
-    turma_id: int, 
-    session: Session = Depends(get_session)
-) -> list:
+    turma_id: int, session: Session = Depends(get_session)
+) -> list[Discente]:
     discentes = service.get_discentes(session, turma_id)
     if discentes is None:
         raise HTTPException(status_code=404, detail="Turma não encontrada")
-    
-    # Mapeia os dados do usuário para o schema DiscenteRead
+
     return [
         {
             **d.model_dump(),
@@ -33,7 +32,7 @@ def get_turma_discentes(
             "email": d.usuario.email,
             "telefone": d.usuario.telefone,
             "imagem": d.usuario.imagem,
-            "tipo_usuario": d.usuario.tipo_usuario
+            "tipo_usuario": d.usuario.tipo_usuario,
         }
         for d in discentes
     ]

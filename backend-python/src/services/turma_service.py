@@ -1,6 +1,7 @@
-from sqlmodel import Session, select
 from sqlalchemy.orm import selectinload
-from ..models import Turma, Discente
+from sqlmodel import Session, select
+
+from ..models import Discente, Turma
 
 
 class TurmaService:
@@ -11,7 +12,9 @@ class TurmaService:
         turma = session.exec(
             select(Turma)
             .where(Turma.turma_id == turma_id)
-            .options(selectinload(Turma.discentes).selectinload(Discente.usuario))
+            .options(
+                selectinload(Turma.discentes).selectinload(Discente.usuario)  # type: ignore[arg-type]
+            )
         ).first()
-        
+
         return turma.discentes if turma else None
