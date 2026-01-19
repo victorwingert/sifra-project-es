@@ -19,8 +19,6 @@ export default function ConsultarFrequencia() {
         setUsuario(data);
       } catch (error) {
         console.error("Erro ao buscar usuário:", error);
-      } finally {
-        setLoading(false);
       }
     }
 
@@ -35,8 +33,9 @@ export default function ConsultarFrequencia() {
         const response = await api.get("/frequencia/discentes", {
           params: { turma_id: turmaId },
         });
+        console.log(response.data);
         const discenteEncontrado = response.data.find(
-          (d) => d.discente.usuario_id === usuario.usuario_id,
+          (d) => d.discente.usuario.usuario_id === usuario.usuario_id,
         );
         if (discenteEncontrado) {
           setDiscente(discenteEncontrado);
@@ -44,6 +43,8 @@ export default function ConsultarFrequencia() {
         }
       } catch (error) {
         console.error("Erro ao buscar discente:", error);
+      } finally {
+        setLoading(false);
       }
     }
     fetchDiscentes();
