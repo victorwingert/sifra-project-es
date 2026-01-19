@@ -118,13 +118,13 @@ const api = axios.create({
 ## 🛠️ Usuários cadastrados
 
 - Docente:
-maria@ufexemplo.edu / senha123
+Prof. Fabricio Mendonça / fabricio@sifra.edu.br
 
 - Discente:
-joao@aluno.ufexemplo.edu / senha456
+Igor Rochaa / hash123
 
 - Coordenador:
-ana@ufexemplo.edu / senha789
+helena@sifra.edu.br / hash123
 
 - Admin:
 admin@ufexemplo.edu / admin123
