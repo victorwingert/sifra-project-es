@@ -4,6 +4,7 @@ from sqlmodel import Session
 from ....db.session import get_session
 from ....models import Discente, Turma, Usuario
 from ....schemas.discente import DiscenteCreate, DiscenteRead, DiscenteUpdate
+from ....schemas.turma import TurmaRead
 from ....services.discente_service import DiscenteService
 from ....services.usuario_service import UsuarioService
 from ..deps import get_current_admin, get_current_coordenador, get_current_user
@@ -13,7 +14,7 @@ service = DiscenteService()
 usuario_service = UsuarioService()
 
 
-@router.get("/{usuario_id}/turmas", response_model=list[Turma])
+@router.get("/{usuario_id}/turmas", response_model=list[TurmaRead])
 def get_discente_turmas(
     usuario_id: int,
     session: Session = Depends(get_session),

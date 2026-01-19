@@ -1,6 +1,7 @@
-from sqlmodel import Session
+from sqlalchemy.orm import selectinload
+from sqlmodel import Session, select
 
-from ..models import Discente, Turma, Usuario
+from ..models import Discente, Turma, TurmaDiscentes, Usuario
 from ..schemas.discente import DiscenteCreate, DiscenteUpdate
 
 
@@ -9,7 +10,14 @@ class DiscenteService:
         discente = session.get(Discente, usuario_id)
         if not discente:
             return None
-        return discente.turmas
+
+        statement = (
+            select(Turma)
+            .join(TurmaDiscentes)
+            .where(TurmaDiscentes.discente_id == usuario_id)
+            .options(selectinload(Turma.disciplina))  # type: ignore
+        )
+        return list(session.exec(statement).all())
 
     def create_discente(self, session: Session, data: DiscenteCreate) -> Discente:
         db_usuario = Usuario(
