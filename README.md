@@ -4,16 +4,18 @@
 Este projeto é um sistema de controle de frequência escolar desenvolvido com:
 
 - **Frontend**: React.js
-- **Backend**: Java (Spring Boot)
+- **Backend**: Python (FastAPI)
 - **Banco de dados**: PostgreSQL
 
 ---
 
 ## 👨‍💻 Desenvolvedores
 
-- João Paulo Macedo 
-- Pedro Muniz 
+- Victor Wingert
+- Pedro Sevenini
+- João Paulo
 - Igor Rocha
+- Pedro Leão
 
 ---
 
