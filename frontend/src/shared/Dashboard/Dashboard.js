@@ -31,7 +31,7 @@ React.useEffect(() => {
   switch (usuario.tipo_usuario) {
     case "DOCENTE":
       setCards([
-        { label: "Lançar frequência", icon: "check-list.png" },
+        { label: "Lançar frequência", icon: "consultar_frequencia.png" },
         { label: "Registro de alunos", icon: "alunos.png" },
         { label: "Minhas informações", icon: "info.png" },
       ]);
