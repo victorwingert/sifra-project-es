@@ -121,7 +121,7 @@ const api = axios.create({
 Prof. Fabricio Mendonça / fabricio@sifra.edu.br
 
 - Discente:
-Igor Rochaa / hash123
+igor.rocha@estudante.edu.br / hash123
 
 - Coordenador:
 helena@sifra.edu.br / hash123
