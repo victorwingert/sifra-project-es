@@ -2,40 +2,68 @@ import "./Dashboard.css";
 import Card from "../../components/Card/Card";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import { getUsuarioLogado } from "../../service/usuarioService";
 
 export default function Dashboard() {
-  const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+  const [usuario, setUsuario] = useState(null);
   const [cards, setCards] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (usuario.perfil === "docente") {
+    async function carregarUsuario() {
+      try {
+        const data = await getUsuarioLogado();
+        setUsuario(data);
+      } catch (error) {
+        console.error("Erro ao buscar usuário:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    carregarUsuario();
+  }, []);
+
+React.useEffect(() => {
+  if (!usuario) return; // ⬅️ ESSENCIAL
+
+  switch (usuario.tipo_usuario) {
+    case "DOCENTE":
       setCards([
         { label: "Lançar frequência", icon: "check-list.png" },
         { label: "Registro de alunos", icon: "alunos.png" },
         { label: "Minhas informações", icon: "info.png" },
       ]);
-    }
-    if (usuario.perfil === "discente") {
+      break;
+
+    case "DISCENTE":
       setCards([
         { label: "Consultar frequência", icon: "consulta.png" },
         { label: "Minhas informações", icon: "info.png" },
       ]);
-    }
-    if (usuario.perfil === "admin") {
+      break;
+
+    case "ADMIN":
       setCards([
         { label: "Cadastrar usuário", icon: "check-list.png" },
         { label: "Gerenciar usuários", icon: "consulta.png" },
       ]);
-    }
-    if (usuario.perfil === "coordenador") {
+      break;
+
+    case "COORDENADOR":
       setCards([
         { label: "Gerar relatório", icon: "check-list.png" },
         { label: "Minhas informações", icon: "info.png" },
         { label: "Registro de alunos", icon: "alunos.png" },
       ]);
-    }
-  }, [usuario.perfil]);
+      break;
+
+    default:
+      setCards([]);
+  }
+}, [usuario]);
+
 
   // Define as rotas para cada card, de acordo com o perfil
   const getCardRoute = (label) => {
@@ -58,6 +86,8 @@ export default function Dashboard() {
         return "/";
     }
   };
+
+  if (loading) return <p>Carregando...</p>;
 
   return (
     <>

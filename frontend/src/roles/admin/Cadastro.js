@@ -49,7 +49,15 @@ export default function CadastroUsuario() {
     }
 
     try {
-      await api.post(`/usuario/save/${perfil}`, payload);
+      if(perfil === "docente"){
+        await api.post(`/docentes`, payload);
+      }
+      if(perfil === "coordenador"){
+        await api.post(`/coordenadores`, payload);
+      }
+      if(perfil === "discente"){
+        await api.post(`/discentes`, payload);
+      }
       alert(`Usuário ${perfil} cadastrado com sucesso.`);
       navigate(-1);
     } catch (error) {

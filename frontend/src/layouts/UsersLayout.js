@@ -2,15 +2,31 @@ import "./Layouts.css";
 
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header/Header";
-import { Navigate } from "react-router-dom";
+import React from "react";
+import { getUsuarioLogado } from "../service/usuarioService";
+import { useState } from "react";
 
 const UsersLayout = () => {
 
-  const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+  const [usuario, setUsuario] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  if (!usuario) {
-    return <Navigate to="/" />; // redireciona para a tela de login
-  }
+  React.useEffect(() => {
+    async function carregarUsuario() {
+      try {
+        const data = await getUsuarioLogado();
+        setUsuario(data);
+      } catch (error) {
+        console.error("Erro ao buscar usuário:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    carregarUsuario();
+  }, []);
+
+  if (loading) return <p>Carregando...</p>;
 
   return (
     <>

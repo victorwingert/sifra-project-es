@@ -11,9 +11,7 @@ export default function Registro() {
   React.useEffect(() => {
     async function fetchDiscentes() {
       try {
-          const response = await api.get("/frequencia/discentes", {
-            params: { turmaId: turmaId },
-          });
+          const response = await api.get("/frequencia/discentes");
           setDiscentes(response.data);
       } catch (error) {
         console.error("Erro ao buscar discentes:", error);

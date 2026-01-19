@@ -10,30 +10,39 @@ export default function LoginPage() {
   const [erro, setErro] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await api.post("/auth/login", {
-        email,
-        senha,
-      });
+ const handleLogin = async (e) => {
+  e.preventDefault();
 
-      // Login bem-sucedido
-      console.log("Usuário logado:", response.data);
-      setErro("");
-      // Redirecionar ou guardar dados aqui
-      localStorage.setItem("usuarioLogado", JSON.stringify(response.data));
-      navigate("/dashboard");
-      
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        setErro("Email ou senha incorretos.");
-      } else {
-        console.error("Erro desconhecido:", error);
-        setErro("Email ou senha incorretos.");
-      }
+  try {
+    const formData = new URLSearchParams();
+    formData.append("username", email); // EMAIL VAI AQUI
+    formData.append("password", senha);
+
+    const response = await api.post("/auth/token", formData, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+
+    console.log("Usuário logado:", response.data);
+
+    localStorage.setItem(
+      "usuarioLogado",
+      JSON.stringify(response.data)
+    );
+
+    navigate("/dashboard");
+  } catch (error) {
+    if (error.response?.status === 401) {
+      setErro("Email ou senha incorretos.");
+    } else {
+      console.error(error);
+      setErro("Erro ao realizar login.");
     }
-  };
+  }
+};
+
+
 
   return (
     <>

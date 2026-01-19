@@ -4,21 +4,44 @@ import Button from "../../components/Button/Button";
 import "./Perfil.css";
 import icon from "../../assets/icons/editar.png";
 import api from "../../service/api";
+import { getUsuarioLogado } from "../../service/usuarioService";
+
 
 export default function Perfil() {
-  const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
-  const [nome, setNome] = useState(usuario.nome);
-  const [email, setEmail] = useState(usuario.email);
-  const [telefone, setTelefone] = useState(usuario.telefone);
-  const [image, setImage] = useState(usuario.image);
-  const cargo = usuario.perfil;
+  const [usuario, setUsuario] = useState(null);
+  const [nome, setNome] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [telefone, setTelefone] = useState(null);
+  const [image, setImage] = useState(null);
+  const [cargo, setCargo] = useState(null);
   const [isEditable, setIsEditable] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
   const alternarEdicao = () => {
     setIsEditable((prevIsEditable) => !prevIsEditable);
   };
+
+  React.useEffect(() => {
+    async function carregarUsuario() {
+      try {
+        const data = await getUsuarioLogado();
+        setUsuario(data);
+        setNome(data.nome);
+        setEmail(data.email);
+        setTelefone(data.telefone);
+        setImage(data.imagem);
+        setCargo(data.tipo_usuario);
+      } catch (error) {
+        console.error("Erro ao buscar usuário:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    carregarUsuario();
+  }, []);
 
   async function salvar() {
     try {
@@ -42,7 +65,7 @@ export default function Perfil() {
       }
       console.log("Usuario salvo com sucesso.");
       alert(
-        "Salvo com sucesso! Você será redirecionado para a tela de login para que seus dados sejam atualizados."
+        "Salvo com sucesso! Você será redirecionado para a tela de login para que seus dados sejam atualizados.",
       );
       handleLogout();
     } catch (error) {
@@ -54,6 +77,8 @@ export default function Perfil() {
     localStorage.removeItem("usuarioLogado");
     navigate("/");
   };
+
+  if (loading) return <p>Carregando...</p>;
 
   return (
     <div className="flex-container">

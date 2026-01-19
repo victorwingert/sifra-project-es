@@ -15,14 +15,14 @@ export default function LancarFrequencia() {
     async function fetchDiscentes() {
       try {
         const response = await api.get("/frequencia/discentes", {
-          params: { turmaId: turmaId },
+          params: { turma_id: turmaId },
         });
         setDiscentes(response.data);
-
+        console.log(response.data);
         // Inicializa todos como "presente"
         const presencasIniciais = {};
         response.data.forEach((d) => {
-          presencasIniciais[d.id] = true;
+          presencasIniciais[d.usuario_id] = true;
         });
         setPresencas(presencasIniciais);
       } catch (error) {
@@ -42,10 +42,10 @@ export default function LancarFrequencia() {
   const handleFinalizar = async () => {
     try {
       const payload = {
-        turmaId: parseInt(turmaId),
+        turma_id: parseInt(turmaId),
         data: data, // já está no formato correto
         discentes: Object.entries(presencas).map(([id, presente]) => ({
-          discenteId: parseInt(id),
+          discente_id: parseInt(id),
           presente: presente,
         })),
       };
@@ -85,15 +85,15 @@ export default function LancarFrequencia() {
           </thead>
           <tbody>
             {discentes.map((row) => (
-              <tr key={row.matricula}>
-                <td>{row.nome}</td>
-                <td>{row.matricula}</td>
+              <tr key={row.discente.matricula}>
+                <td>{row.discente.nome}</td>
+                <td>{row.discente.matricula}</td>
                 <td>{row.faltas}</td>
                 <td>
                   <input
                     type="checkbox"
-                    checked={presencas[row.id] ?? true}
-                    onChange={() => handleCheckboxChange(row.id)}
+                    checked={presencas[row.discente.usuario_id] ?? true}
+                    onChange={() => handleCheckboxChange(row.discente.usuario_id)}
                   />
                 </td>
               </tr>
